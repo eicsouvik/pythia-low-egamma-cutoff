@@ -65,5 +65,3 @@ This creates `outputs/low_energy_cutoff_diagnostics.pdf` and
 
 By default, the macro reads
 `inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`
-
-# pythia-low-egamma-cutoff
