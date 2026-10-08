@@ -91,3 +91,4 @@ exchanged photon. It identifies a unique non-final-state photon connected to
 the incoming electron beam line, computes `Q2 = -q.M2()`, and fills the photon
 spectrum using the standard weighted ROOT call
 `egamma.Fill(E_gamma * 1e3, event_weight)`.
+# pythia-low-egamma-cutoff
