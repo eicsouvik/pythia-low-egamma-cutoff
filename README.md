@@ -36,24 +36,20 @@ near four particles.
 
 ## Package contents
 
-- `code/simrun15mb_ep.C`: October 8 STAR generator configuration copied from
-  `Code/upc2pc/model/macros/10_8_2026/simrun15mb_ep.C`. The relevant beam and
+- `code/simrun15mb_ep.C`: October 8 STAR generator configuration. The relevant beam and
   photoproduction settings are around lines 270-330, with the principal
   PYTHIA switches on lines 309-330.
 - `code/analysis.cxx`: analysis executable that fills `egamma`,
-  `h_npart_raw`, and `h_npart_tof_matched`. It is copied from
-  `Code/upc2pc/model/macros/10_8_2026/analysis.cxx`; the exchanged-photon
+  `h_npart_raw`, and `h_npart_tof_matched`. The exchanged-photon
   reconstruction and event selection are around lines 323-373.
 - `code/reweight_egamma.C`: construction of photon-energy weights from the
   nOOn flux.
 - `code/make_diagnostic_plots.C`: creates a two-panel photon-energy and raw
   multiplicity diagnostic figure from the representative ROOT output.
 - `inputs/noon_flux.root`: neutron-tagged photonuclear flux input.
-- `inputs/reweighting_factors_ep2x100_test2.txt`: representative weight table.
-- `inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`: an earlier
-  representative analyzed ROOT file used as the input to the diagnostic
-  plotting macro. It was not regenerated with the October 8 code; replace it
-  with a new output before making quantitative comparisons.
+- `inputs/reweighting_factors_ep2x100_test2.txt`: representative weight table (obtained using n00n model).
+- `inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`: ROOT file used as the input to the diagnostic
+  plotting macro.
 - `outputs/Egamma_reweighted.pdf`: existing photon-spectrum reweighting plot.
 
 ## Reproduce the diagnostic figure
@@ -68,27 +64,6 @@ This creates `outputs/low_energy_cutoff_diagnostics.pdf` and
 `outputs/low_energy_cutoff_diagnostics.png`.
 
 By default, the macro reads
-`inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`. A different ROOT
-file can be supplied as the first macro argument.
+`inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`
 
-## Questions for the PYTHIA authors
-
-1. Is the approximately 5 GeV lower bound on the gamma-p invariant mass a
-   hard limit of the lepton-to-photon flux or photon-hadron initialization in
-   this PYTHIA configuration?
-2. Can lower-energy photons be generated consistently within the same EPA
-   setup with `SoftQCD:nonDiffractive`, or should a different
-   soft-photoproduction configuration be used below this limit?
-3. Are additional `PhaseSpace`, photon PDF, VMD/GVMD, direct/resolved, or
-   minimum-mass settings required?
-4. Is a hybrid sample needed to cover low-mass hadronic final states that are
-   outside the perturbative photon-parton configuration?
-
-## October 8 analysis updates
-
-The supplied analysis no longer assumes a fixed event-record index for the
-exchanged photon. It identifies a unique non-final-state photon connected to
-the incoming electron beam line, computes `Q2 = -q.M2()`, and fills the photon
-spectrum using the standard weighted ROOT call
-`egamma.Fill(E_gamma * 1e3, event_weight)`.
 # pythia-low-egamma-cutoff
