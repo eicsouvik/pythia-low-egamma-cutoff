@@ -6,12 +6,13 @@
 #include "TH1.h"
 #include "TLatex.h"
 #include "TLine.h"
+#include "TPad.h"
 #include "TStyle.h"
 
 void make_diagnostic_plots(
     const char *inputPath =
         "inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root",
-    const char *outputStem = "outputs/low_energy_cutoff_diagnostics") {
+    const char *outputStem = "outputs/low_energy_cutoff_QA") {
   gStyle->SetOptStat(0);
 
   TFile input(inputPath, "READ");
@@ -40,16 +41,18 @@ void make_diagnostic_plots(
 
   TCanvas canvas("c_low_energy_diagnostics", "Low-energy cutoff diagnostics",
                  1500, 650);
-  canvas.Divide(2, 1, 0.015, 0.015);
+  canvas.Divide(2, 1);
 
   canvas.cd(1);
-  gPad->SetLogy();
-  gPad->SetLeftMargin(0.13);
-  gPad->SetBottomMargin(0.13);
-  egammaPlot->GetXaxis()->SetRangeUser(0., 1000.);
-  egammaPlot->Draw("HIST");
-  TLine egammaThreshold(62.5, std::max(1.0, egammaPlot->GetMinimum(0.0)),
-                        62.5, egammaPlot->GetMaximum());
+  //gPad->SetLogy();
+  //gPad->SetLeftMargin(0.13);
+  //gPad->SetBottomMargin(0.13);
+  egammaPlot->GetXaxis()->SetRangeUser(0., 200.);
+  const double egammaMaximum = std::max(1.0, egammaPlot->GetMaximum());
+  TH1F *egammaFrame = gPad->DrawFrame(0., 0., 200., 1.10 * egammaMaximum);
+  egammaFrame->SetTitle("Generated photon spectrum;E_{#gamma} (MeV);Events");
+  egammaPlot->Draw("HIST SAME");
+  TLine egammaThreshold(62.5, 0., 62.5, 3e5);
   egammaThreshold.SetLineColor(kBlack);
   egammaThreshold.SetLineStyle(2);
   egammaThreshold.SetLineWidth(2);
@@ -64,7 +67,7 @@ void make_diagnostic_plots(
   gPad->SetLogy();
   gPad->SetLeftMargin(0.13);
   gPad->SetBottomMargin(0.13);
-  npartPlot->GetXaxis()->SetRangeUser(0., 40.);
+  npartPlot->GetXaxis()->SetRangeUser(0., 50.);
   npartPlot->Draw("HIST");
   TLine multiplicityThreshold(4., std::max(1.0, npartPlot->GetMinimum(0.0)),
                               4., npartPlot->GetMaximum());
@@ -79,7 +82,7 @@ void make_diagnostic_plots(
                              "Observed edge near N_{part}^{raw}=4");
 
   canvas.SaveAs(Form("%s.pdf", outputStem));
-  canvas.SaveAs(Form("%s.png", outputStem));
+  //canvas.SaveAs(Form("%s.png", outputStem));
 
   delete egammaPlot;
   delete npartPlot;
