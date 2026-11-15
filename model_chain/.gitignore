@@ -13,8 +13,8 @@ outputs/*
 *.list
 pythia_noon.root
 Output.root
+PYTHIA_root_files/*.root
 
 # OS/editor files
 .DS_Store
 *~
-

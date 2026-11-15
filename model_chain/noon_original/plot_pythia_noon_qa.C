@@ -67,9 +67,9 @@ void normalizeStoredDensity(TH1* h,int first,int last){
 }
 }
 
-// Run: root -l -b -q 'plot_pythia_noon_qa.C+("pythia_noon.root","essential_QA_plots_mm_dd_yy","../../n00n_flux_from_Ashik_da/noon_flux.root")'
+// Run: root -l -b -q 'plot_pythia_noon_qa.C+("pythia_noon.root","essential_QA_plots_mm_dd_yy","../n00n_flux_from_Ashik_da/noon_flux.root")'
 // Uses saved histograms only; never reruns or changes neutron generation.
-void plot_pythia_noon_qa(const char* input="pythia_noon.root",const char* output="essential_QA_plots_mm_dd_yy",const char* fluxInput="../../n00n_flux_from_Ashik_da/noon_flux.root"){
+void plot_pythia_noon_qa(const char* input="pythia_noon.root",const char* output="essential_QA_plots_mm_dd_yy",const char* fluxInput="../n00n_flux_from_Ashik_da/noon_flux.root"){
  using namespace noon_plot;
  std::unique_ptr<TFile> file(TFile::Open(input));
  if(!file||file->IsZombie())throw std::runtime_error("Cannot open input ROOT file");

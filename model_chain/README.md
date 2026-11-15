@@ -30,21 +30,29 @@ not apply the flux or detector response a second time.
 
 ## Repository contents
 
-- `inputs/noon_flux.root`: n00n two-dimensional photon flux
+- `n00n_flux_from_Ashik_da/noon_flux.root`: n00n two-dimensional photon flux
   `h2fluxNoon_wPnohad(E_gamma,b)`; the photon-energy axis is in MeV.
-- `inputs/reweighting_factors_*.txt`: normalized target/source shape ratio on
-  the common PYTHIA-n00n support.
-- `pythia/simrun15mb_ep.C`: STAR/PYTHIA 8.3 generator configuration.
-- `pythia/analysis.cxx`: photon reconstruction, flux weighting, detector
+- `reweighting_factors_ep10x100_test17-18_updated_analysis_macro.txt`:
+  representative normalized target/source shape ratio on the common
+  PYTHIA-n00n support.
+- `macros/11_13_2026/simrun15mb_ep.C`: STAR/PYTHIA 8.3 generator
+  configuration retained with the November analysis snapshot.
+- `macros/11_13_2026/analysis.cxx`: photon reconstruction, n00n flux
+  weighting, detector
   response, multiplicity classes, correlations, and the `noonEvents` interface
   tree.
-- `pythia/reweight_egamma.C`: regenerates the common-support weight table and
-  performs a closure test.
-- `pythia/plot_pythia_post_generation_essentials*.C`: PYTHIA and detector QA.
-- `n00n/NeutronGenerator.*` and `n00n/Data/`: original breakup generator and
-  its nuclear inputs.
-- `n00n/run_pythia_noon.C`: event-by-event PYTHIA-to-n00n interface.
-- `n00n/plot_pythia_noon_qa.C`: activity-conditioned neutron and closure QA.
+- `macros/11_13_2026/reweight_egamma.C`: regenerates the common-support
+  weight table and performs a closure test.
+- `macros/11_13_2026/plot_pythia_post_generation_essentials*.C`: PYTHIA and
+  detector QA.
+- `PYTHIA_root_files/egamma_less5gev_ep10x100_test17-18_updated_analysis_macro2.root`:
+  standard generated output path. The 592 MiB reference file is locally
+  generated/Git-ignored; its checksum is documented in that directory.
+- `noon_original/NeutronGenerator.*` and `noon_original/Data/`: original
+  breakup generator and its nuclear inputs.
+- `noon_original/run_pythia_noon.C`: event-by-event PYTHIA-to-n00n interface.
+- `noon_original/plot_pythia_noon_qa.C`: activity-conditioned neutron and
+  closure QA.
 - `scripts/run_chain.sh`: end-to-end driver starting from a compiled PYTHIA
   analysis executable and generator file list.
 - `scripts/validate_chain.C`: checks metadata, required branches, completion,
@@ -57,7 +65,7 @@ not apply the flux or detector response a second time.
 Two environments are used:
 
 1. **STAR software environment** for event generation and compilation/running
-   of `pythia/analysis.cxx`. It must provide StarPythia8, ROOT, the generated
+   of `macros/11_13_2026/analysis.cxx`. It must provide StarPythia8, ROOT, the generated
    `genevents` reader, and the existing analysis build files.
 2. **ROOT 6 with a C++ compiler** for the n00n afterburner and all plotting
    macros. The tested local version was ROOT 6.26/10.
@@ -76,7 +84,7 @@ cd pythia-low-egamma-cutoff/model_chain
 ./scripts/check_environment.sh
 ```
 
-In the STAR environment, compile `pythia/analysis.cxx` with the same
+In the STAR environment, compile `macros/11_13_2026/analysis.cxx` with the same
 `genevents.cxx`, `genevents.h`, and `GNUmakefile` used for the generator tree.
 Then run the complete weighted-analysis, QA, and neutron-afterburner chain:
 
@@ -90,14 +98,15 @@ Then run the complete weighted-analysis, QA, and neutron-afterburner chain:
 The analysis command executed by the driver is equivalent to:
 
 ```bash
-analysis py8 pythia_files.list outputs/production_001/pythia_weighted.root \
-  inputs/reweighting_factors_ep10x100_test17-18_updated_analysis_macro.txt
+analysis py8 pythia_files.list \
+  PYTHIA_root_files/egamma_less5gev_ep10x100_test17-18_updated_analysis_macro2.root \
+  reweighting_factors_ep10x100_test17-18_updated_analysis_macro.txt
 ```
 
 The final ROOT files are:
 
 ```text
-outputs/production_001/pythia_weighted.root
+PYTHIA_root_files/egamma_less5gev_ep10x100_test17-18_updated_analysis_macro2.root
 outputs/production_001/n00n_afterburner/pythia_noon.root
 ```
 
@@ -119,7 +128,7 @@ regenerate it from an unweighted PYTHIA analysis file containing `egamma`:
 
 ```bash
 root -l -b -q \
-  'pythia/reweight_egamma.C("/path/to/unweighted.root","inputs/noon_flux.root","inputs/new_weights.txt",1.0)'
+  'macros/11_13_2026/reweight_egamma.C("/path/to/unweighted.root","n00n_flux_from_Ashik_da/noon_flux.root","new_weights.txt",1.0)'
 ```
 
 The macro reports the fraction of the n00n flux below the first usable PYTHIA

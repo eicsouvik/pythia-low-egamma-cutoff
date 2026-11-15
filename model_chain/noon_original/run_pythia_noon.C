@@ -18,7 +18,7 @@
 // Run from noon_original. maxEntries=-1 processes the complete tree.
 // Energy cuts are optional, in GeV; the activity classes do NOT define disjoint k windows.
 void run_pythia_noon(
- const char* input="../PYTHIA_root_files/egamma_less1p1gev_ep10x100_test17-18_updated_analysis_macro.root",
+ const char* input="../PYTHIA_root_files/egamma_less5gev_ep10x100_test17-18_updated_analysis_macro2.root",
  Long64_t maxEntries=-1,
  const char* outDir="pythia_noon_output",
  UInt_t seed=12345, double kMin=0., double kMax=5.,

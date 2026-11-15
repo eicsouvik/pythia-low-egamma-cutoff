@@ -19,10 +19,11 @@ else
 fi
 
 for path in \
-  "$package_dir/inputs/noon_flux.root" \
-  "$package_dir/inputs/reweighting_factors_ep10x100_test17-18_updated_analysis_macro.txt" \
-  "$package_dir/n00n/NeutronGenerator.cxx" \
-  "$package_dir/n00n/Data/ENDF_Au197.txt"; do
+  "$package_dir/n00n_flux_from_Ashik_da/noon_flux.root" \
+  "$package_dir/reweighting_factors_ep10x100_test17-18_updated_analysis_macro.txt" \
+  "$package_dir/macros/11_13_2026/analysis.cxx" \
+  "$package_dir/noon_original/NeutronGenerator.cxx" \
+  "$package_dir/noon_original/Data/ENDF_Au197.txt"; do
   if [[ ! -f "$path" ]]; then
     echo "MISSING: $path" >&2
     fail=1
@@ -37,4 +38,3 @@ fi
 echo "ROOT/n00n runtime inputs are available."
 echo "The PYTHIA stage additionally requires the STAR software environment,"
 echo "a compiled analysis executable, and a generator ROOT-file list."
-
