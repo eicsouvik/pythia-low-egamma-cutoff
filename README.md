@@ -4,6 +4,14 @@ This package documents the low-energy cutoff observed in a PYTHIA 8.3
 photoproduction study intended as a noncollective baseline for inclusive
 photonuclear collisions at RHIC.
 
+## Complete n00n-PYTHIA-n00n workflow
+
+The reproducible workflow connecting the n00n photon flux to PYTHIA with a
+STAR-like detector response and then to n00n neutron production is available
+in [`model_chain/`](model_chain/README.md). It includes the compact flux and
+weight inputs, generator/analysis configuration, neutron afterburner, QA
+macros, validation checks, example figures, and a single pipeline driver.
+
 ## Physics setup
 
 - Beam configuration: 10 GeV electron on 100 GeV proton.
@@ -64,4 +72,4 @@ This creates `outputs/low_energy_cutoff_diagnostics.pdf` and
 `outputs/low_energy_cutoff_diagnostics.png`.
 
 By default, the macro reads
-`inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`
+`inputs/egamma_less1p1gev_ep10x100_test17-18_eta2_01.root`.
